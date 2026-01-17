@@ -60,7 +60,10 @@
     <section id="plants-list-area" class="card">
       <div class="plants-header">
         <h3>🥬 This Week's Plants</h3>
-        <button id="refresh-list" class="btn-icon" aria-label="Refresh list">🔄</button>
+        <div class="plants-actions">
+          <a id="notion-link" href="#" target="_blank" class="btn-icon" aria-label="Open in Notion" title="Edit in Notion" hidden>📝</a>
+          <button id="refresh-list" class="btn-icon" aria-label="Refresh list">🔄</button>
+        </div>
       </div>
       <div id="plants-list" class="plants-list">
         <div class="plants-empty">No plants logged yet this week</div>
@@ -72,6 +75,61 @@
     </footer>
   </main>
 
+  <!-- Onboarding modal -->
+  <dialog id="onboarding">
+    <div class="onboarding-content">
+      <h2>🌱 Welcome to PlantTrack!</h2>
+      <p>Track 30 different plants per week for better gut health. Let's get you set up:</p>
+      
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Create your Notion Database</h4>
+            <p>Duplicate our template to your Notion workspace:</p>
+            <a href="https://www.notion.so/2eb807af32a681069226f06bae3d1c61?v=2eb807af32a681d4bc51000c17eaa7de&source=copy_link" 
+               target="_blank" class="btn primary">
+              📋 Duplicate Notion Template
+            </a>
+          </div>
+        </div>
+        
+        <div class="setup-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Get your Notion Token & DB ID</h4>
+            <ol>
+              <li>Go to <a href="https://www.notion.so/my-integrations" target="_blank">notion.so/my-integrations</a></li>
+              <li>Click "New integration" → Name it "PlantTrack"</li>
+              <li>Copy the "Internal Integration Token" (starts with <code>secret_</code>)</li>
+              <li>Open your duplicated database in Notion</li>
+              <li>Click ••• → "Connections" → Add your "PlantTrack" integration</li>
+              <li>Copy the Database ID from the URL:<br>
+                <code>notion.so/<strong>[DATABASE_ID]</strong>?v=...</code></li>
+            </ol>
+          </div>
+        </div>
+        
+        <div class="setup-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Get your OpenAI API Key</h4>
+            <ol>
+              <li>Go to <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></li>
+              <li>Click "Create new secret key"</li>
+              <li>Copy the key (starts with <code>sk-</code>)</li>
+            </ol>
+            <p class="note">💡 You'll need to add credits to your OpenAI account. ~$5 lasts months of usage.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="onboarding-footer">
+        <button id="skip-onboarding" class="btn">Skip for now</button>
+        <button id="start-setup" class="btn primary">Open Settings →</button>
+      </div>
+    </div>
+  </dialog>
   <!-- Settings modal -->
   <dialog id="settings">
     <form method="dialog">

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>PlantTrack — 30 plants a week</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icons/icon-192.svg" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
+  <meta name="theme-color" content="#0b84ff" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Toast notifications -->
+  <div id="toast-container"></div>
+
+  <main id="app">
+    <header>
+      <h1>🌱 PlantTrack</h1>
+      <button id="open-settings" aria-label="Settings">⚙️</button>
+    </header>
+
+    <section id="camera-area" class="card">
+      <button id="take-photo" class="big-btn">
+        <span class="btn-text">📸 Take Photo</span>
+        <span class="btn-loading" hidden>
+          <span class="spinner"></span> Processing...
+        </span>
+      </button>
+      <input id="file-input" type="file" accept="image/*,.heic,.heif" capture="environment" style="display:none" />
+      <div id="preview" class="preview"></div>
+      <div id="detected-chips" class="chips"></div>
+      <div class="row">
+        <button id="add-manual" class="btn">➕ Add manually</button>
+        <button id="save-entry" class="btn primary" disabled>
+          <span class="btn-text">Save</span>
+          <span class="btn-loading" hidden>
+            <span class="spinner"></span> Saving...
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section id="progress-area" class="card">
+      <div class="progress-header">
+        <span>Week progress</span>
+        <span id="progress-text">0 / 30</span>
+      </div>
+      <progress id="progress-bar" value="0" max="30"></progress>
+      <div id="week-range" class="week-range"></div>
+    </section>
+
+    <section id="plants-list-area" class="card">
+      <div class="plants-header">
+        <h3>🥬 This Week's Plants</h3>
+        <button id="refresh-list" class="btn-icon" aria-label="Refresh list">🔄</button>
+      </div>
+      <div id="plants-list" class="plants-list">
+        <div class="plants-empty">No plants logged yet this week</div>
+      </div>
+    </section>
+
+    <footer>
+      <small>Local keys only · Saves to your Notion DB</small>
+    </footer>
+  </main>
+
+  <!-- Settings modal -->
+  <dialog id="settings">
+    <form method="dialog">
+      <h3>⚙️ Settings</h3>
+      <label>OpenAI API Key
+        <input id="openai-key" type="password" placeholder="sk-..." autocomplete="off" />
+      </label>
+      <label>OpenAI Model
+        <input id="openai-model" placeholder="gpt-4o-mini" />
+      </label>
+      <label>Notion Integration Token
+        <input id="notion-token" type="password" placeholder="secret_..." autocomplete="off" />
+      </label>
+      <label>Notion DB ID
+        <input id="notion-db" placeholder="Notion database id" />
+      </label>
+      <label>Weekly Goal
+        <input id="weekly-goal" type="number" min="1" value="30" />
+      </label>
+
+      <div class="row">
+        <button type="button" id="export-csv" class="btn">Export CSV</button>
+        <button type="button" id="reset-local" class="btn danger">Reset</button>
+        <button type="button" id="close-settings" class="btn primary">Save & Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Load heic2any for HEIC support -->
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

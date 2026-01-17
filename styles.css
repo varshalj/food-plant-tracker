@@ -101,7 +101,23 @@ header button:hover {
   opacity: 0.7;
   cursor: not-allowed;
 }
+.photo-buttons {
+  display: flex;
+  gap: 10px;
+}
 
+.photo-buttons .big-btn {
+  flex: 1;
+}
+
+.big-btn.secondary {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+#cancel-processing {
+  width: 100%;
+  margin-top: 10px;
+}
 .btn {
   padding: 10px 16px;
   border-radius: 8px;

@@ -25,7 +25,7 @@ let lastImageDataUrl = null;
 // Setup
 document.addEventListener('DOMContentLoaded', async () => {
   // load saved model default
-  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini-vision';
+  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini';
   document.getElementById('weekly-goal').value = getSetting('weeklyGoal') || 30;
   updateProgressUI();
   // service worker register
@@ -93,7 +93,7 @@ openSettingsBtn.addEventListener('click', () => {
   document.getElementById('openai-key').value = getSetting('openaiKey') || '';
   document.getElementById('notion-token').value = getSetting('notionToken') || '';
   document.getElementById('notion-db').value = getSetting('notionDb') || '';
-  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini-vision';
+  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini';
   document.getElementById('weekly-goal').value = getSetting('weeklyGoal') || 30;
   settingsDlg.showModal();
 });

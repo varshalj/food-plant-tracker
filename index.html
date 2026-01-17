@@ -21,13 +21,20 @@
     </header>
 
     <section id="camera-area" class="card">
-      <button id="take-photo" class="big-btn">
-        <span class="btn-text">📸 Take Photo</span>
-        <span class="btn-loading" hidden>
-          <span class="spinner"></span> Processing...
-        </span>
-      </button>
-      <input id="file-input" type="file" accept="image/*,.heic,.heif" capture="environment" style="display:none" />
+<div class="photo-buttons">
+  <button id="take-photo" class="big-btn">
+    <span class="btn-text">📸 Camera</span>
+    <span class="btn-loading" hidden>
+      <span class="spinner"></span> Processing...
+    </span>
+  </button>
+  <button id="pick-gallery" class="big-btn secondary">
+    <span class="btn-text">🖼️ Gallery</span>
+  </button>
+</div>
+<button id="cancel-processing" class="btn danger" hidden>✕ Cancel</button>
+<input id="camera-input" type="file" accept="image/*,.heic,.heif" capture="environment" style="display:none" />
+<input id="gallery-input" type="file" accept="image/*,.heic,.heif" style="display:none" />
       <div id="preview" class="preview"></div>
       <div id="detected-chips" class="chips"></div>
       <div class="row">

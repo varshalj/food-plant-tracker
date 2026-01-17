@@ -490,7 +490,43 @@ dialog .row {
   pointer-events: none;
   z-index: 9998;
 }
+/* Autosuggest */
+.chip-wrapper {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 40px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+}
+
+.suggestions.active {
+  display: block;
+}
+
+.suggestion-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+  background: #eef6ff;
+}
 /* Responsive */
 @media (max-width: 400px) {
   body {

@@ -26,6 +26,11 @@ const weekRange = document.getElementById('week-range');
 
 const plantsList = document.getElementById('plants-list');
 const refreshListBtn = document.getElementById('refresh-list');
+const notionLink = document.getElementById('notion-link');
+
+const onboardingDlg = document.getElementById('onboarding');
+const skipOnboardingBtn = document.getElementById('skip-onboarding');
+const startSetupBtn = document.getElementById('start-setup');
 
 let lastImageDataUrl = null;
 let currentAbortController = null;
@@ -105,14 +110,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini';
   document.getElementById('weekly-goal').value = getSetting('weeklyGoal') || 30;
   
+  // Check if first visit or missing credentials
+  const hasCompletedOnboarding = getSetting('onboardingComplete');
+  const hasCredentials = getSetting('openaiKey') && getSetting('notionToken') && getSetting('notionDb');
+  
+  if (!hasCompletedOnboarding && !hasCredentials) {
+    onboardingDlg.showModal();
+  }
+  
   // Initial UI update
   await updateProgressUI();
+  
+  // Update Notion link
+  updateNotionLink();
   
   // Register service worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').catch(() => {});
   }
 });
+
+// ============ Onboarding ============
+skipOnboardingBtn.addEventListener('click', () => {
+  setSetting('onboardingComplete', true);
+  onboardingDlg.close();
+});
+
+startSetupBtn.addEventListener('click', () => {
+  setSetting('onboardingComplete', true);
+  onboardingDlg.close();
+  openSettingsBtn.click();
+});
+
+function updateNotionLink() {
+  const notionDb = getSetting('notionDb');
+  if (notionDb) {
+    notionLink.href = `https://www.notion.so/${notionDb.replace(/-/g, '')}`;
+    notionLink.hidden = false;
+  } else {
+    notionLink.hidden = true;
+  }
+}
 
 // ============ Camera/Gallery Flow ============
 takePhotoBtn.addEventListener('click', () => cameraInput.click());
@@ -285,6 +323,7 @@ closeSettingsBtn.addEventListener('click', () => {
   settingsDlg.close();
   showToast('Settings saved!', 'success');
   updateProgressUI();
+  updateNotionLink();
 });
 
 // ============ Export CSV ============

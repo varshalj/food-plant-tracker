@@ -1,7 +1,7 @@
 import { analyzeImage } from './ai.js';
 import { saveRowsToNotion, fetchWeekEntries } from './notion.js';
 import { getSetting, setSetting, clearAll } from './storage.js';
-import { renderChips, getChipValues } from './ui.js';
+import { renderChips, getChipValues, setCachedPlants, getCachedPlants } from './ui.js';
 
 // DOM Elements
 const cameraInput = document.getElementById('camera-input');
@@ -28,6 +28,7 @@ const plantsList = document.getElementById('plants-list');
 const refreshListBtn = document.getElementById('refresh-list');
 
 let lastImageDataUrl = null;
+let currentAbortController = null;
 
 // ============ Toast Notifications ============
 function showToast(message, type = 'info', duration = 3000) {
@@ -113,19 +114,45 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// ============ Camera Flow ============
-takePhotoBtn.addEventListener('click', () => {
-  fileInput.click();
+// ============ Camera/Gallery Flow ============
+takePhotoBtn.addEventListener('click', () => cameraInput.click());
+pickGalleryBtn.addEventListener('click', () => galleryInput.click());
+
+cameraInput.addEventListener('change', handleImageSelect);
+galleryInput.addEventListener('change', handleImageSelect);
+
+cancelBtn.addEventListener('click', () => {
+  if (currentAbortController) {
+    currentAbortController.abort();
+    currentAbortController = null;
+  }
+  resetImageUI();
+  showToast('Cancelled', 'info', 1500);
 });
 
-fileInput.addEventListener('change', async (ev) => {
-  let file = ev.target.files?.[0];
+function resetImageUI() {
+  setButtonLoading(takePhotoBtn, false);
+  cancelBtn.hidden = true;
+  preview.innerHTML = '';
+  chipsDiv.innerHTML = '';
+  lastImageDataUrl = null;
+  cameraInput.value = '';
+  galleryInput.value = '';
+}
+
+async function handleImageSelect(ev) {
+ let file = ev.target.files?.[0];
   if (!file) return;
   
-  // Reset file input for back-to-back uploads
-  fileInput.value = '';
+  // Reset file inputs for back-to-back uploads
+  cameraInput.value = '';
+  galleryInput.value = '';
+  
+  // Setup abort controller for cancellation
+  currentAbortController = new AbortController();
   
   setButtonLoading(takePhotoBtn, true);
+  cancelBtn.hidden = false;
   chipsDiv.innerHTML = '';
   saveBtn.disabled = true;
   
@@ -158,17 +185,20 @@ fileInput.addEventListener('change', async (ev) => {
     }
     
     saveBtn.disabled = false;
+    cancelBtn.hidden = true;
+    currentAbortController = null;
     
   } catch (err) {
+    if (err.name === 'AbortError') return; // User cancelled
     console.error('Analysis error:', err);
-    preview.innerHTML = '';
-    chipsDiv.innerHTML = '';
-    lastImageDataUrl = null;
+    resetImageUI();
     showToast(err.message || 'Failed to analyze image', 'error');
   } finally {
     setButtonLoading(takePhotoBtn, false);
+    cancelBtn.hidden = true;
+    currentAbortController = null;
   }
-});
+}
 
 // ============ Manual Add ============
 addManualBtn.addEventListener('click', () => {
@@ -345,6 +375,9 @@ async function updateProgressUI() {
         .sort()
         .map(p => `<span class="plant-tag">${p}</span>`)
         .join('');
+      
+      // Cache plants for autosuggest
+      setCachedPlants(uniquePlants);
     }
     
     // Celebrate if goal reached!

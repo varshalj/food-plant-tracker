@@ -239,7 +239,7 @@ header button:hover {
   border: 0;
   background: transparent;
   min-width: 80px;
-  font-size: 14px;
+  font-size: 16px; /* Prevents Safari auto-zoom */
   outline: none;
 }
 
@@ -402,7 +402,7 @@ dialog input {
   border-radius: 8px;
   border: 1px solid var(--border);
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 16px; /* Prevents Safari auto-zoom */
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 

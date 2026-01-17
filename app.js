@@ -4,8 +4,11 @@ import { getSetting, setSetting, clearAll } from './storage.js';
 import { renderChips, getChipValues } from './ui.js';
 
 // DOM Elements
-const fileInput = document.getElementById('file-input');
+const cameraInput = document.getElementById('camera-input');
+const galleryInput = document.getElementById('gallery-input');
 const takePhotoBtn = document.getElementById('take-photo');
+const pickGalleryBtn = document.getElementById('pick-gallery');
+const cancelBtn = document.getElementById('cancel-processing');
 const preview = document.getElementById('preview');
 const chipsDiv = document.getElementById('detected-chips');
 const saveBtn = document.getElementById('save-entry');

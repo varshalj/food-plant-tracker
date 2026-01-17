@@ -31,6 +31,7 @@ const notionLink = document.getElementById('notion-link');
 const onboardingDlg = document.getElementById('onboarding');
 const skipOnboardingBtn = document.getElementById('skip-onboarding');
 const startSetupBtn = document.getElementById('start-setup');
+const showSetupGuideBtn = document.getElementById('show-setup-guide');
 
 let lastImageDataUrl = null;
 let currentAbortController = null;
@@ -142,15 +143,10 @@ startSetupBtn.addEventListener('click', () => {
   openSettingsBtn.click();
 });
 
-function updateNotionLink() {
-  const notionDb = getSetting('notionDb');
-  if (notionDb) {
-    notionLink.href = `https://www.notion.so/${notionDb.replace(/-/g, '')}`;
-    notionLink.hidden = false;
-  } else {
-    notionLink.hidden = true;
-  }
-}
+showSetupGuideBtn.addEventListener('click', () => {
+  settingsDlg.close();
+  onboardingDlg.showModal();
+});
 
 // ============ Camera/Gallery Flow ============
 takePhotoBtn.addEventListener('click', () => cameraInput.click());

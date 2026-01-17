@@ -1,57 +1,64 @@
 // ai.js - analyzeImage(dataUrl, model, openaiKey) => { plants: ['spinach','tomato'], confidence: {...} }
-export async function analyzeImage(dataUrl, model='gpt-4o-mini-vision', openaiKey){
-  if(!openaiKey) throw new Error('OpenAI key required');
-  // trim dataUrl if very large; we post as a message content image part
-  // Build Responses API payload as structured input (this mirrors OpenAI Responses docs)
+export async function analyzeImage(dataUrl, model = 'gpt-4o-mini', openaiKey) {
+  if (!openaiKey) throw new Error('OpenAI key required');
+  
   const prompt = buildPrompt();
-  // Using Responses API: include an input array with input_text and input_image
+  
   const body = {
     model,
-    input: [
+    messages: [
       {
         role: "user",
         content: [
-          { type: "input_text", text: prompt },
-          { type: "input_image", image_url: dataUrl }
+          { type: "text", text: prompt },
+          { 
+            type: "image_url", 
+            image_url: { 
+              url: dataUrl,
+              detail: "low"  // Use "low" for faster/cheaper, "high" for more detail
+            }
+          }
         ]
       }
     ],
-    // ask for short response
-    max_output_tokens: 400
+    max_tokens: 400
   };
-  const res = await fetch('https://api.openai.com/v1/responses', {
+  
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'Content-Type':'application/json',
-      'Authorization':`Bearer ${openaiKey}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${openaiKey}`
     },
     body: JSON.stringify(body)
   });
-  if(!res.ok){
+  
+  if (!res.ok) {
     const t = await res.text();
-    throw new Error('OpenAI error: '+t);
+    throw new Error('OpenAI error: ' + t);
   }
+  
   const data = await res.json();
-  // The responses endpoint returns an object; extract text output
-  // We expect the model to emit a JSON blob in the first output.
-  const output = data.output?.[0];
-  const txt = output?.content?.find(c => c.type === 'output_text')?.text || output?.text || JSON.stringify(data);
-  // try to parse JSON from output
+  const txt = data.choices?.[0]?.message?.content || '';
+  
   const json = parseJsonFromText(txt);
-  if(!json) throw new Error('No JSON parsed from model response');
+  if (!json) throw new Error('No JSON parsed from model response');
   return json;
 }
 
-function parseJsonFromText(txt){
-  if(!txt) return null;
-  // find first { ... } block
+function parseJsonFromText(txt) {
+  if (!txt) return null;
   const start = txt.indexOf('{');
   const end = txt.lastIndexOf('}');
-  if(start === -1 || end === -1) return null;
-  try{ return JSON.parse(txt.slice(start, end+1)); }catch(e){ return null; }
+  if (start === -1 || end === -1) return null;
+  try { 
+    return JSON.parse(txt.slice(start, end + 1)); 
+  } catch (e) { 
+    return null; 
+  }
 }
 
-function buildPrompt(){
+function buildPrompt() {
   return `You are a helpful kitchen assistant. Analyze the provided image and return a STRICT JSON object (no extra text) with two keys:
 {
  "plants": ["spinach","tomato","lentil"],

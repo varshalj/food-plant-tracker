@@ -148,6 +148,16 @@ showSetupGuideBtn.addEventListener('click', () => {
   onboardingDlg.showModal();
 });
 
+function updateNotionLink() {
+  const notionDb = getSetting('notionDb');
+  if (notionDb) {
+    notionLink.href = `https://www.notion.so/${notionDb.replace(/-/g, '')}`;
+    notionLink.hidden = false;
+  } else {
+    notionLink.hidden = true;
+  }
+}
+
 // ============ Camera/Gallery Flow ============
 takePhotoBtn.addEventListener('click', () => cameraInput.click());
 pickGalleryBtn.addEventListener('click', () => galleryInput.click());

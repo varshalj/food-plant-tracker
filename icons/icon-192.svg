@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b84ff"/>
+      <stop offset="100%" style="stop-color:#0b6bff"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ade80"/>
+      <stop offset="100%" style="stop-color:#22c55e"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="96" cy="96" r="88" fill="url(#bg)"/>
+  
+  <!-- Plant/leaf icon -->
+  <g transform="translate(96, 96)">
+    <!-- Main leaf -->
+    <path d="M-8 40 Q-8 -20 30 -45 Q20 -10 20 30 Q20 45 0 50 Q-15 45 -8 40 Z" 
+          fill="url(#leaf)" 
+          transform="rotate(-15)"/>
+    
+    <!-- Second leaf -->
+    <path d="M8 40 Q8 -20 -30 -45 Q-20 -10 -20 30 Q-20 45 0 50 Q15 45 8 40 Z" 
+          fill="url(#leaf)" 
+          transform="rotate(15)" 
+          opacity="0.85"/>
+    
+    <!-- Stem -->
+    <rect x="-4" y="35" width="8" height="25" rx="4" fill="#16a34a"/>
+  </g>
+  
+  <!-- "30" text -->
+  <text x="96" y="155" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="24" 
+        font-weight="bold" 
+        fill="white" 
+        text-anchor="middle">30</text>
+</svg>

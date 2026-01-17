@@ -4,6 +4,9 @@
 export async function saveRowsToNotion(rows, notionToken, notionDbId) {
   if (!notionToken || !notionDbId) throw new Error('Notion credentials required');
   
+  // Calculate ISO week (e.g., "2025-W03")
+  const isoWeek = getISOWeekString(new Date());
+  
   // Create page per row
   for (const r of rows) {
     const response = await fetch('/api/notion', {
@@ -20,7 +23,8 @@ export async function saveRowsToNotion(rows, notionToken, notionDbId) {
             "Date": { date: { start: r.date } },
             "Canonical Plant": { title: [{ text: { content: r.canonical } }] },
             "Original Label": { rich_text: [{ text: { content: r.original } }] },
-            "Source": { select: { name: r.source || 'photo' } }
+            "Source": { select: { name: r.source || 'photo' } },
+            "ISO Week": { rich_text: [{ text: { content: isoWeek } }] }
           }
         }
       })
@@ -114,4 +118,12 @@ function endOfISOWeek(d) {
   e.setDate(s.getDate() + 6);
   e.setHours(23, 59, 59, 999);
   return e;
+}
+function getISOWeekString(date) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  const week1 = new Date(d.getFullYear(), 0, 4);
+  const weekNum = 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  return `${d.getFullYear()}-W${String(weekNum).padStart(2, '0')}`;
 }

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>PlantTrack — 30 plants a week</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>PlantTrack</h1>
+      <button id="open-settings" aria-label="Settings">⚙️</button>
+    </header>
+
+    <section id="camera-area" class="card">
+      <button id="take-photo" class="big-btn">📸 Take Photo</button>
+      <input id="file-input" type="file" accept="image/*" capture="environment" style="display:none" />
+      <div id="preview" class="preview"></div>
+      <div id="detected-chips" class="chips"></div>
+      <div class="row">
+        <button id="add-manual" class="btn">➕ Add manually</button>
+        <button id="save-entry" class="btn primary" disabled>Save</button>
+      </div>
+    </section>
+
+    <section id="progress-area" class="card">
+      <div>Week progress</div>
+      <div id="progress-text">0 / 30</div>
+      <progress id="progress-bar" value="0" max="30"></progress>
+      <div id="week-range"></div>
+    </section>
+
+    <footer>
+      <small>Local keys only · Saves to your Notion DB</small>
+    </footer>
+  </main>
+
+  <!-- Settings modal -->
+  <dialog id="settings">
+    <form method="dialog">
+      <h3>Settings</h3>
+      <label>OpenAI API Key
+        <input id="openai-key" placeholder="sk-..." />
+      </label>
+      <label>OpenAI Model
+        <input id="openai-model" placeholder="gpt-4o-mini-vision" />
+      </label>
+      <label>Notion Integration Token
+        <input id="notion-token" placeholder="secret_..." />
+      </label>
+      <label>Notion DB ID
+        <input id="notion-db" placeholder="Notion database id" />
+      </label>
+      <label>Weekly Goal
+        <input id="weekly-goal" type="number" min="1" value="30" />
+      </label>
+
+      <div class="row">
+        <button id="export-csv" class="btn">Export CSV</button>
+        <button id="reset-local" class="btn">Reset local</button>
+        <button id="close-settings" class="btn primary">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

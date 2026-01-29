@@ -1,5 +1,5 @@
 // Common plants for autosuggest fallback
-const COMMON_PLANTS = [
+/*const COMMON_PLANTS = [
   'apple', 'avocado', 'banana', 'basil', 'bean', 'beet', 'bell pepper', 'blueberry',
   'broccoli', 'cabbage', 'carrot', 'cauliflower', 'celery', 'chickpea', 'chili',
   'cilantro', 'cinnamon', 'coconut', 'corn', 'cucumber', 'cumin', 'eggplant',
@@ -9,7 +9,19 @@ const COMMON_PLANTS = [
   'radish', 'raspberry', 'rice', 'rosemary', 'spinach', 'squash', 'strawberry',
   'sweet potato', 'thyme', 'tomato', 'turmeric', 'walnut', 'watermelon', 'wheat',
   'zucchini'
+];*/
+
+const COMMON_PLANTS = [
+  'almond','apple','artichoke','asparagus','avocado','banana','barley','basil',
+  'bean','bean sprout','beet','bell pepper','blackberry','blueberry','broccoli','brussels sprout','cabbage',
+  'carrot','cashew','cauliflower','celery','chickpea','chive','cilantro','cinnamon','coconut','corn','cucumber','cumin',
+  'date','dill','eggplant','fennel','fig','garlic','ginger','grape','green bean','green chilly','hazelnut','kale','leek','lemon',
+  'lentil','lettuce','lime','mango','mint','mushroom','nutmeg','oat','olive','onion','orange','oregano',
+  'papaya','parsley','pea','peanut','pecan','pepper','pineapple','pistachio','pomegranate','potato','pumpkin',
+  'quinoa','radish','raspberry','rice','rosemary','sesame','shallot','spinach','squash','strawberry','sunflower seed','sweet potato',
+  'thyme','tomato','turnip','turmeric','walnut','watermelon','wheat', 'zucchini'
 ];
+
 
 let cachedPlants = [];
 

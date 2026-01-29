@@ -125,11 +125,51 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Update Notion link
   updateNotionLink();
   
-  // Register service worker
+  // Register service worker with auto-update
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    navigator.serviceWorker.register('/service-worker.js').then(reg => {
+      // Check for updates on load and periodically
+      reg.update();
+      setInterval(() => reg.update(), 60 * 60 * 1000); // Every hour
+      
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // New version available - show update toast
+            showUpdateToast();
+          }
+        });
+      });
+    }).catch(() => {});
+    
+    // Reload when new service worker takes over
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
   }
 });
+
+function showUpdateToast() {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast update-toast';
+  toast.innerHTML = `
+    <span>🆕 Update available!</span>
+    <button onclick="applyUpdate()">Refresh</button>
+  `;
+  container.appendChild(toast);
+}
+
+function applyUpdate() {
+  navigator.serviceWorker.getRegistration().then(reg => {
+    if (reg?.waiting) {
+      reg.waiting.postMessage('skipWaiting');
+    } else {
+      window.location.reload();
+    }
+  });
+}
 
 // ============ Onboarding ============
 skipOnboardingBtn.addEventListener('click', () => {

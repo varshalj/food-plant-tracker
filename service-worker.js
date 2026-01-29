@@ -1,5 +1,5 @@
 // Service worker with update detection
-const CACHE_VERSION = 'v4'; // INCREMENT THIS ON EACH DEPLOY
+const CACHE_VERSION = 'v5'; // INCREMENT THIS ON EACH DEPLOY
 const CACHE = `planttrack-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [

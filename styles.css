@@ -480,6 +480,25 @@ dialog .row {
   }
 }
 
+.update-toast {
+  background: #333;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: none;
+}
+
+.update-toast button {
+  background: white;
+  color: #333;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
 /* Celebration */
 .celebration {
   position: fixed;

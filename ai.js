@@ -1,5 +1,5 @@
 // ai.js - analyzeImage(dataUrl, model, openaiKey) => { plants: ['spinach','tomato'], confidence: {...} }
-export async function analyzeImage(dataUrl, model = 'gpt-4o-mini', openaiKey) {
+export async function analyzeImage(dataUrl, model = 'gpt-4.1-nano', openaiKey) {
   if (!openaiKey) throw new Error('OpenAI key required');
   
   const prompt = buildPrompt();

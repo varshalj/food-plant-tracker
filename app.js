@@ -108,7 +108,7 @@ function fileToDataUrl(file) {
 // ============ Initialize ============
 document.addEventListener('DOMContentLoaded', async () => {
   // Load saved settings
-  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini';
+  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4.1-nano';
   document.getElementById('weekly-goal').value = getSetting('weeklyGoal') || 30;
   
   // Check if first visit or missing credentials
@@ -256,7 +256,7 @@ async function handleImageSelect(ev) {
       throw new Error('Please add your OpenAI API key in Settings');
     }
     
-    const model = getSetting('openaiModel') || document.getElementById('openai-model').value || 'gpt-4o-mini';
+    const model = getSetting('openaiModel') || document.getElementById('openai-model').value || 'gpt-4.1-nano';
     const result = await analyzeImage(dataUrl, model, openaiKey);
     const plants = result?.plants || [];
     
@@ -355,7 +355,7 @@ openSettingsBtn.addEventListener('click', () => {
   document.getElementById('openai-key').value = getSetting('openaiKey') || '';
   document.getElementById('notion-token').value = getSetting('notionToken') || '';
   document.getElementById('notion-db').value = getSetting('notionDb') || '';
-  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4o-mini';
+  document.getElementById('openai-model').value = getSetting('openaiModel') || 'gpt-4.1-nano';
   document.getElementById('weekly-goal').value = getSetting('weeklyGoal') || 30;
   settingsDlg.showModal();
 });
